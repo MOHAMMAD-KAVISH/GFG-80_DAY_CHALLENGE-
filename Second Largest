@@ -1,0 +1,18 @@
+int getSecondLargest(vector<int> &arr) {
+    // Initialize first and second largest as minimum possible values
+    int f = INT_MIN, s = INT_MIN;
+
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[i] > f) {
+            // Update second largest before updating the largest
+            s = f;
+            f = arr[i];
+        } else if (arr[i] > s && arr[i] != f) {
+            // Update second largest only if it's not equal to the largest
+            s = arr[i];
+        }
+    }
+
+    // Return -1 if no valid second largest is found
+    return (s == INT_MIN) ? -1 : s;
+}
