@@ -1,0 +1,20 @@
+int circularSubarraySum(vector<int> &arr) {
+
+        // your code here
+        int n=arr.size();
+        int max_kadane=INT_MIN,max_end=0;
+        for(int a:arr){
+            max_end=max(a,max_end+a);
+            max_kadane=max(max_kadane,max_end);
+        }
+        
+        int min_kadane=INT_MAX,min_end=0;
+        for(int a:arr){
+            min_end=min(a,min_end+a);
+            min_kadane=min(min_kadane,min_end);
+        }
+        int ts=accumulate(arr.begin(),arr.end(),0);
+        if(ts==min_kadane) return max_kadane;
+        
+        return max(max_kadane,ts-min_kadane);
+    }
