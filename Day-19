@@ -1,0 +1,35 @@
+vector<int> computeLPS(const string &pattern) {
+    int n = pattern.size();
+    vector<int> lps(n, 0);
+    int length = 0; 
+    int i = 1;
+
+    while (i < n) {
+        if (pattern[i] == pattern[length]) {
+            length++;
+            lps[i] = length;
+            i++;
+        } else {
+            if (length != 0) {
+                length = lps[length - 1];
+            } else {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+    return lps;
+}
+    int minChar(string& s) {
+        // Write your code here
+    string reversedS = s;
+    reverse(reversedS.begin(), reversedS.end());
+
+    string combined = s + "#" + reversedS;
+
+    vector<int> lps = computeLPS(combined);
+
+    int longestPalindromicPrefix = lps.back();
+
+    return s.size() - longestPalindromicPrefix;
+    }
