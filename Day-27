@@ -1,0 +1,32 @@
+void mergeArrays(vector<int>& a, vector<int>& b) {
+        // code here
+    int n = a.size();
+    int m = b.size();
+    int gap = ceil((double)(n + m) / 2);
+
+    while (gap > 0) {
+        int i = 0, j = gap;
+
+        // Compare elements within a[] and b[]
+        while (j < (n + m)) {
+            // Element from a[] vs a[]
+            if (i < n && j < n && a[i] > a[j]) {
+                swap(a[i], a[j]);
+            }
+            // Element from a[] vs b[]
+            else if (i < n && j >= n && a[i] > b[j - n]) {
+                swap(a[i], b[j - n]);
+            }
+            // Element from b[] vs b[]
+            else if (i >= n && j >= n && b[i - n] > b[j - n]) {
+                swap(b[i - n], b[j - n]);
+            }
+
+            i++;
+            j++;
+        }
+
+        // Reduce the gap
+        if (gap == 1) break;
+        gap = ceil((double)gap / 2);
+    }
