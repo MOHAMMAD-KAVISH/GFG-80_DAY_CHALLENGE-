@@ -1,0 +1,13 @@
+int countFreq(vector<int>& arr, int target) {
+        // code here
+        unordered_map<int,int>mp;
+        for(int a:arr){
+            mp[a]++;
+        }
+        for(auto& a:mp){
+            if(a.first==target){
+                return a.second;
+            }
+        }
+        return 0;
+    }
