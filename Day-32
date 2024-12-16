@@ -1,0 +1,29 @@
+int kthElement(vector<int>& a, vector<int>& b, int k) {
+        // code here
+    int n = a.size();
+    int m = b.size();
+    
+    if (n > m) return kthElement(b, a, k);
+
+    int left = max(0, k - m), right = min(k, n);
+
+    while (left <= right) {
+        int partitionA = (left + right) / 2;
+        int partitionB = k - partitionA;
+
+        int maxLeftA = (partitionA == 0) ? INT_MIN : a[partitionA - 1];
+        int minRightA = (partitionA == n) ? INT_MAX : a[partitionA];
+
+        int maxLeftB = (partitionB == 0) ? INT_MIN : b[partitionB - 1];
+        int minRightB = (partitionB == m) ? INT_MAX : b[partitionB];
+
+        if (maxLeftA <= minRightB && maxLeftB <= minRightA) {
+            return max(maxLeftA, maxLeftB);
+        } else if (maxLeftA > minRightB) {
+            right = partitionA - 1;
+        } else {
+            left = partitionA + 1;
+        }
+    }
+    return -1;
+    }
