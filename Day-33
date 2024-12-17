@@ -1,0 +1,33 @@
+bool can(vector<int>&stalls,int m,int k){
+        int c=1;
+        int pos=0;
+        for(int i=1;i<stalls.size();i++){
+            if(stalls[i]-stalls[pos]>=m){
+                c++;
+                pos=i;
+            }
+        }
+        if(c>=k){
+            return true;
+        }
+        return false;
+    }
+    
+    
+    int aggressiveCows(vector<int> &stalls, int k) {
+
+        // Write your code here
+        int n=stalls.size();
+        sort(stalls.begin(),stalls.end());
+        int l=1;
+        int h=stalls[n-1]-stalls[0];
+        while(l<=h){
+            int mid=(l+h)/2;
+            if(can(stalls,mid,k)==true){
+                l=mid+1;
+            }else{
+                h=mid-1;
+            }
+        }
+    return h;
+    }
