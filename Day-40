@@ -1,0 +1,20 @@
+bool searchMatrix(vector<vector<int>> &mat, int x) {
+        // code here
+        int n = mat.size();
+        int m = mat[0].size();
+        int left = 0, right = n * m - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int midValue = mat[mid / m][mid % m]; 
+            if (midValue == x) {
+                return true; 
+            } else if (midValue < x) {
+                left = mid + 1; 
+            } else {
+                right = mid - 1; 
+            }
+        }
+
+        return false; 
+    }
