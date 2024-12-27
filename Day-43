@@ -1,0 +1,17 @@
+int countPairs(vector<int> &arr, int target) {
+        // Code here
+    unordered_map<int, int> freqMap; 
+    int pairCount = 0;
+
+    for (int num : arr) {
+        int complement = target - num;
+
+        if (freqMap.find(complement) != freqMap.end()) {
+            pairCount += freqMap[complement]; 
+        }
+
+        freqMap[num]++;
+    }
+
+    return pairCount;
+    }
