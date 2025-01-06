@@ -1,0 +1,35 @@
+if (arr.size() < 2) return {}; // If there are fewer than two elements, return an empty array.
+
+    // Step 1: Sort the array
+    sort(arr.begin(), arr.end());
+    int n = arr.size();
+
+    // Step 2: Initialize variables
+    int closestSum = INT_MAX;
+    int maxAbsDiff = INT_MIN;
+    vector<int> bestPair;
+
+    int i = 0, j = n - 1;
+
+    // Step 3: Two-pointer technique
+    while (i < j) {
+        int sum = arr[i] + arr[j];
+        int absDiff = arr[j] - arr[i];
+
+        // If the sum is closer to the target or the same but with a larger absolute difference
+        if (abs(target - sum) < abs(target - closestSum) || 
+            (abs(target - sum) == abs(target - closestSum) && absDiff > maxAbsDiff)) {
+            closestSum = sum;
+            maxAbsDiff = absDiff;
+            bestPair = {arr[i], arr[j]};
+        }
+
+        // Move pointers based on the sum
+        if (sum <= target) {
+            i++;
+        } else {
+            j--;
+        }
+    }
+
+    return bestPair;
