@@ -1,0 +1,63 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int countPairs(vector<int>& arr, int target) {
+    int left = 0, right = arr.size() - 1;
+    int count = 0;
+
+    while (left < right) {
+        int sum = arr[left] + arr[right];
+
+        if (sum == target) {
+            // If both elements are the same, calculate combinations
+            if (arr[left] == arr[right]) {
+                int n = right - left + 1;
+                count += n * (n - 1) / 2; // nC2 combinations
+                break;
+            }
+
+            // Count duplicates for left and right
+            int leftCount = 1, rightCount = 1;
+            while (left + 1 < right && arr[left] == arr[left + 1]) {
+                leftCount++;
+                left++;
+            }
+            while (right - 1 > left && arr[right] == arr[right - 1]) {
+                rightCount++;
+                right--;
+            }
+
+            count += leftCount * rightCount;
+            left++;
+            right--;
+        } else if (sum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    // Test cases
+    vector<int> arr1 = {1, 1, 1, 1, 2};
+    int target1 = 2;
+    cout << countPairs(arr1, target1) << endl; // Output: 6
+
+    vector<int> arr2 = {-1, 1, 5, 5, 7};
+    int target2 = 6;
+    cout << countPairs(arr2, target2) << endl; // Output: 3
+
+    vector<int> arr3 = {1, 1, 1, 1};
+    int target3 = 2;
+    cout << countPairs(arr3, target3) << endl; // Output: 6
+
+    vector<int> arr4 = {-1, 10, 10, 12, 15};
+    int target4 = 125;
+    cout << countPairs(arr4, target4) << endl; // Output: 0
+
+    return 0;
+}
