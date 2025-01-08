@@ -1,0 +1,23 @@
+int n = arr.size();
+    if (n < 3) return 0; // At least 3 sides are required to form a triangle
+
+    sort(arr.begin(), arr.end()); // Step 1: Sort the array
+    int count = 0;
+
+    // Step 2: Iterate through the array and fix the largest side
+    for (int i = n - 1; i >= 2; --i) {
+        int left = 0, right = i - 1;
+
+        // Step 3: Two-pointer technique
+        while (left < right) {
+            if (arr[left] + arr[right] > arr[i]) {
+                // All elements from left to right-1 can form a triangle
+                count += (right - left);
+                --right; // Move the right pointer
+            } else {
+                ++left; // Move the left pointer
+            }
+        }
+    }
+
+    return count;
