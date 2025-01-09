@@ -1,0 +1,21 @@
+int n = arr.size();
+    int start = 0, currentSum = 0;
+
+    for (int end = 0; end < n; end++) {
+        // Add the current element to the running sum
+        currentSum += arr[end];
+
+        // Shrink the window if the sum exceeds the target
+        while (currentSum > target && start <= end) {
+            currentSum -= arr[start];
+            start++;
+        }
+
+        // Check if we found the target sum
+        if (currentSum == target) {
+            return {start + 1, end + 1}; // Return 1-based indices
+        }
+    }
+
+    // If no subarray is found
+    return {-1};
