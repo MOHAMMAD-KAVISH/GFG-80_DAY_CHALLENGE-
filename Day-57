@@ -1,0 +1,26 @@
+vector<int> result;
+    unordered_map<int, int> freqMap; // Map to store element frequencies
+
+    // Step 1: Populate the map for the first window
+    for (int i = 0; i < k; ++i) {
+        freqMap[arr[i]]++;
+    }
+    // Store the count of distinct elements in the first window
+    result.push_back(freqMap.size());
+
+    // Step 2: Slide the window
+    for (int i = k; i < arr.size(); ++i) {
+        // Remove the element going out of the window
+        freqMap[arr[i - k]]--;
+        if (freqMap[arr[i - k]] == 0) {
+            freqMap.erase(arr[i - k]); // Remove from map if frequency is zero
+        }
+
+        // Add the new element coming into the window
+        freqMap[arr[i]]++;
+
+        // Store the count of distinct elements in the current window
+        result.push_back(freqMap.size());
+    }
+
+    return result;
