@@ -1,0 +1,39 @@
+#include <iostream>
+#include <unordered_set>
+#include <string>
+using namespace std;
+
+int longestDistinctSubstring(string s) {
+    unordered_set<char> charSet; // To track distinct characters
+    int maxLen = 0, start = 0;
+
+    for (int end = 0; end < s.size(); ++end) {
+        // If duplicate character is found, shrink the window from the left
+        while (charSet.find(s[end]) != charSet.end()) {
+            charSet.erase(s[start]);
+            ++start;
+        }
+        // Add the current character to the set
+        charSet.insert(s[end]);
+        // Update the maximum length
+        maxLen = max(maxLen, end - start + 1);
+    }
+
+    return maxLen;
+}
+
+int main() {
+    // Example 1
+    string s1 = "geeksforgeeks";
+    cout << "Input: " << s1 << "\nOutput: " << longestDistinctSubstring(s1) << endl;
+
+    // Example 2
+    string s2 = "aaa";
+    cout << "Input: " << s2 << "\nOutput: " << longestDistinctSubstring(s2) << endl;
+
+    // Example 3
+    string s3 = "abcdefabcbb";
+    cout << "Input: " << s3 << "\nOutput: " << longestDistinctSubstring(s3) << endl;
+
+    return 0;
+}
