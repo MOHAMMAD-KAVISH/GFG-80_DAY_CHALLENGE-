@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int trapRainWater(vector<int>& arr) {
+    int n = arr.size();
+    if (n <= 1) return 0; // No water can be trapped with fewer than 2 blocks.
+
+    int left = 0, right = n - 1;
+    int leftMax = 0, rightMax = 0;
+    int waterTrapped = 0;
+
+    while (left <= right) {
+        if (arr[left] <= arr[right]) {
+            if (arr[left] >= leftMax) {
+                leftMax = arr[left];
+            } else {
+                waterTrapped += leftMax - arr[left];
+            }
+            ++left;
+        } else {
+            if (arr[right] >= rightMax) {
+                rightMax = arr[right];
+            } else {
+                waterTrapped += rightMax - arr[right];
+            }
+            --right;
+        }
+    }
+
+    return waterTrapped;
+}
+
+int main() {
+    vector<int> arr1 = {3, 0, 1, 0, 4, 0, 2};
+    cout << "Input: {3, 0, 1, 0, 4, 0, 2}, Output: " << trapRainWater(arr1) << endl;
+
+    vector<int> arr2 = {3, 0, 2, 0, 4};
+    cout << "Input: {3, 0, 2, 0, 4}, Output: " << trapRainWater(arr2) << endl;
+
+    vector<int> arr3 = {1, 2, 3, 4};
+    cout << "Input: {1, 2, 3, 4}, Output: " << trapRainWater(arr3) << endl;
+
+    vector<int> arr4 = {2, 1, 5, 3, 1, 0, 4};
+    cout << "Input: {2, 1, 5, 3, 1, 0, 4}, Output: " << trapRainWater(arr4) << endl;
+
+    return 0;
+}
