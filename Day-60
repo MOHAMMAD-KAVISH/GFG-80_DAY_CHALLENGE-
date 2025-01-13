@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int maxWaterContainer(vector<int>& arr) {
+    int n = arr.size();
+    int left = 0, right = n - 1;
+    int maxArea = 0;
+
+    while (left < right) {
+        int width = right - left;
+        int height = min(arr[left], arr[right]);
+        maxArea = max(maxArea, width * height);
+
+        // Move the pointer with the smaller height
+        if (arr[left] < arr[right]) {
+            ++left;
+        } else {
+            --right;
+        }
+    }
+
+    return maxArea;
+}
+
+int main() {
+    vector<int> arr1 = {1, 5, 4, 3};
+    cout << "Input: {1, 5, 4, 3}, Output: " << maxWaterContainer(arr1) << endl;
+
+    vector<int> arr2 = {3, 1, 2, 4, 5};
+    cout << "Input: {3, 1, 2, 4, 5}, Output: " << maxWaterContainer(arr2) << endl;
+
+    vector<int> arr3 = {2, 1, 8, 6, 4, 6, 5, 5};
+    cout << "Input: {2, 1, 8, 6, 4, 6, 5, 5}, Output: " << maxWaterContainer(arr3) << endl;
+
+    return 0;
+}
