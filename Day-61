@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int findEquilibriumPoint(vector<int>& arr) {
+    long long totalSum = 0, prefixSum = 0;
+
+    // Calculate the total sum of the array
+    for (int num : arr) {
+        totalSum += num;
+    }
+
+    // Iterate through the array to find the equilibrium point
+    for (int i = 0; i < arr.size(); ++i) {
+        // Calculate the right sum
+        long long rightSum = totalSum - prefixSum - arr[i];
+
+        // Check if prefixSum equals rightSum
+        if (prefixSum == rightSum) {
+            return i; // Equilibrium point found
+        }
+
+        // Update the prefix sum
+        prefixSum += arr[i];
+    }
+
+    return -1; // No equilibrium point exists
+}
+
+int main() {
+    vector<int> arr1 = {1, 2, 0, 3};
+    cout << "Input: arr[] = [1, 2, 0, 3]\nOutput: " << findEquilibriumPoint(arr1) << endl;
+
+    vector<int> arr2 = {1, 1, 1, 1};
+    cout << "Input: arr[] = [1, 1, 1, 1]\nOutput: " << findEquilibriumPoint(arr2) << endl;
+
+    vector<int> arr3 = {-7, 1, 5, 2, -4, 3, 0};
+    cout << "Input: arr[] = [-7, 1, 5, 2, -4, 3, 0]\nOutput: " << findEquilibriumPoint(arr3) << endl;
+
+    return 0;
+}
