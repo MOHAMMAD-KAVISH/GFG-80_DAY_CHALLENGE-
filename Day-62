@@ -1,0 +1,24 @@
+unordered_map<int, int> prefixSumIndex; // Map to store prefix sums and their first occurrence indices
+    int prefixSum = 0;
+    int maxLength = 0;
+
+    for (int i = 0; i < arr.size(); ++i) {
+        prefixSum += arr[i]; // Update the running prefix sum
+
+        // Check if the entire array up to this index has the sum k
+        if (prefixSum == k) {
+            maxLength = max(maxLength, i + 1);
+        }
+
+        // Check if there exists a subarray ending at i with sum k
+        if (prefixSumIndex.find(prefixSum - k) != prefixSumIndex.end()) {
+            maxLength = max(maxLength, i - prefixSumIndex[prefixSum - k]);
+        }
+
+        // Store the prefix sum in the map if not already present
+        if (prefixSumIndex.find(prefixSum) == prefixSumIndex.end()) {
+            prefixSumIndex[prefixSum] = i;
+        }
+    }
+
+    return maxLength;
