@@ -1,0 +1,35 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+int findMaxLength(vector<int>& arr) {
+    unordered_map<int, int> sumIndexMap; // Stores prefix sum and its first occurrence index
+    int prefixSum = 0, maxLength = 0;
+    
+    for (int i = 0; i < arr.size(); i++) {
+        // Replace 0 with -1
+        prefixSum += (arr[i] == 0 ? -1 : 1);
+        
+        // If prefixSum == 0, subarray from 0 to i has equal 0s and 1s
+        if (prefixSum == 0) {
+            maxLength = i + 1;
+        }
+
+        // If prefixSum exists in map, calculate the length of the subarray
+        if (sumIndexMap.find(prefixSum) != sumIndexMap.end()) {
+            maxLength = max(maxLength, i - sumIndexMap[prefixSum]);
+        } else {
+            // Store the first occurrence of the prefix sum
+            sumIndexMap[prefixSum] = i;
+        }
+    }
+    
+    return maxLength;
+}
+
+int main() {
+    vector<int> arr = {1, 0, 1, 1, 1, 0, 0};
+    cout << "Length of longest subarray: " << findMaxLength(arr) << endl;
+    return 0;
+}
