@@ -1,0 +1,50 @@
+class Solution {
+  public:
+    Node* reverse(Node* head){
+        Node* curr=head;
+        Node* prev=NULL;
+        Node* next=NULL;
+        while(curr){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+    Node* addTwoLists(Node* num1, Node* num2) {
+        // code here
+        num1=reverse(num1);
+        num2=reverse(num2);
+        Node* first=NULL;
+        Node* last=NULL;
+        int carry=0;
+        while(num1!=NULL||num2!=NULL||carry!=0){
+            int sum=carry;
+            if(num1!=NULL){
+                sum+=num1->data;
+                num1=num1->next;
+            }
+            if(num2!=NULL){
+                sum+=num2->data;
+                num2=num2->next;
+            }
+            carry=sum/10;
+            Node* newnode=new Node(sum%10);
+            if(first==NULL){
+                first=newnode;
+            }else{
+                last->next=newnode;
+            }
+            last=newnode;
+        }
+        
+        first=reverse(first);
+        while(first!=NULL&&first->data==0){
+            Node* temp=first;
+            first=first->next;
+            delete temp;
+        }
+        return first==NULL?new Node(0):first;
+    }
+};
