@@ -1,0 +1,88 @@
+#include <unordered_map>
+using namespace std;
+
+class LRUCache {
+private:
+    struct Node {
+        int key, value;
+        Node* prev;
+        Node* next;
+        Node(int k, int v) : key(k), value(v), prev(nullptr), next(nullptr) {}
+    };
+
+    int capacity; // Maximum capacity of the cache
+    unordered_map<int, Node*> cache; // Hashmap for key-node mapping
+    Node* head; // Dummy head of the doubly linked list
+    Node* tail; // Dummy tail of the doubly linked list
+
+    // Helper function to add a node right after the head
+    void addNode(Node* node) {
+        node->next = head->next;
+        node->prev = head;
+        head->next->prev = node;
+        head->next = node;
+    }
+
+    // Helper function to remove a node from the linked list
+    void removeNode(Node* node) {
+        Node* prevNode = node->prev;
+        Node* nextNode = node->next;
+        prevNode->next = nextNode;
+        nextNode->prev = prevNode;
+    }
+
+    // Helper function to move a node to the front (most recently used)
+    void moveToHead(Node* node) {
+        removeNode(node);
+        addNode(node);
+    }
+
+    // Helper function to remove the tail node (least recently used)
+    Node* popTail() {
+        Node* node = tail->prev;
+        removeNode(node);
+        return node;
+    }
+
+public:
+    // Constructor for initializing the cache capacity with the given value
+    LRUCache(int cap) {
+        capacity = cap;
+        head = new Node(-1, -1); // Dummy head
+        tail = new Node(-1, -1); // Dummy tail
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    // Function to return value corresponding to the key
+    int get(int key) {
+        if (cache.find(key) == cache.end()) {
+            return -1; // Key not found
+        }
+        Node* node = cache[key];
+        moveToHead(node); // Mark as most recently used
+        return node->value;
+    }
+
+    // Function for storing key-value pair
+    void put(int key, int value) {
+        if (cache.find(key) != cache.end()) {
+            // Key exists, update value and move to head
+            Node* node = cache[key];
+            node->value = value;
+            moveToHead(node);
+        } else {
+            // Key does not exist, create a new node
+            Node* newNode = new Node(key, value);
+            cache[key] = newNode;
+            addNode(newNode);
+
+            // If cache size exceeds capacity, remove the least recently used node
+            if (cache.size() > capacity) {
+                Node* lru = popTail();
+                cache.erase(lru->key);
+                delete lru;
+            }
+        }
+    }
+};
