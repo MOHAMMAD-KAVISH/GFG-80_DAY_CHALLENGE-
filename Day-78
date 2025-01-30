@@ -1,0 +1,37 @@
+// User function Template for C++
+
+class Solution{
+public:
+    vector<vector<int>>res;
+    void solve(int n, int row, vector<int>& cols, vector<int>& diag1, vector<int>& diag2, vector<int>& board) {
+        if (row == n) {
+            res.push_back(board);  // All queens are placed successfully
+            return;
+        }
+        
+        for (int col = 0; col < n; ++col) {
+            if (cols[col] || diag1[row + col] || diag2[row - col + n - 1]) continue;  // Not a valid position
+
+            // Place the queen
+            cols[col] = diag1[row + col] = diag2[row - col + n - 1] = 1;
+            board.push_back(col + 1);  // Convert 0-based index to 1-based for output
+
+            solve(n, row + 1, cols, diag1, diag2, board);
+
+            // Backtrack
+            cols[col] = diag1[row + col] = diag2[row - col + n - 1] = 0;
+            board.pop_back();
+        }
+    }
+    vector<vector<int>> nQueen(int n) {
+        // code here
+        vector<int> cols(n, 0);  // Track occupied columns
+        vector<int> diag1(2 * n - 1, 0);  // Track occupied major diagonals
+        vector<int> diag2(2 * n - 1, 0);  // Track occupied minor diagonals
+        vector<int> board;
+
+        solve(n, 0, cols, diag1, diag2, board);
+
+        return res;
+    }
+};
