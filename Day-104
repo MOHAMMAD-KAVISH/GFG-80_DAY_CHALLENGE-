@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+using namespace std;
+
+vector<int> maxOfMin(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> left(n, -1), right(n, n); // Previous & Next Smaller Elements
+    stack<int> s;
+
+    // Compute previous smaller elements
+    for (int i = 0; i < n; i++) {
+        while (!s.empty() && arr[s.top()] >= arr[i])
+            s.pop();
+        if (!s.empty())
+            left[i] = s.top();
+        s.push(i);
+    }
+
+    // Clear stack for next computation
+    while (!s.empty()) s.pop();
+
+    // Compute next smaller elements
+    for (int i = n - 1; i >= 0; i--) {
+        while (!s.empty() && arr[s.top()] >= arr[i])
+            s.pop();
+        if (!s.empty())
+            right[i] = s.top();
+        s.push(i);
+    }
+
+    // Initialize result array
+    vector<int> res(n + 1, 0);
+
+    // Compute window size contribution
+    for (int i = 0; i < n; i++) {
+        int windowSize = right[i] - left[i] - 1;
+        res[windowSize] = max(res[windowSize], arr[i]);
+    }
+
+    // Fill remaining values to maintain non-decreasing order
+    for (int i = n - 1; i >= 1; i--)
+        res[i] = max(res[i], res[i + 1]);
+
+    // Remove first index (res[0] is not used)
+    res.erase(res.begin());
+
+    return res;
+}
+
+// Driver Code
+int main() {
+    vector<int> arr = {10, 20, 30, 50, 10, 70, 30};
+    vector<int> result = maxOfMin(arr);
+
+    for (int val : result)
+        cout << val << " ";
+    cout << endl;
+
+    return 0;
+}
