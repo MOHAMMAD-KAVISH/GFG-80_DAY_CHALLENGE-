@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    stack<int> stackData, minStack;
+
+    Solution() {}
+
+    void push(int x) {
+        stackData.push(x);
+        if (minStack.empty() || x <= minStack.top()) {
+            minStack.push(x);
+        }
+    }
+
+    void pop() {
+        if (!stackData.empty()) {
+            if (stackData.top() == minStack.top()) {
+                minStack.pop();
+            }
+            stackData.pop();
+        }
+    }
+
+    int peek() {
+        return stackData.empty() ? -1 : stackData.top();
+    }
+
+    int getMin() {
+        return minStack.empty() ? -1 : minStack.top();
+    }
+};
