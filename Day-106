@@ -1,0 +1,19 @@
+int evaluate(vector<string>& arr) {
+        // code here
+        stack<int> stk;
+
+        for (const string& token : arr) {
+            if (token == "+" || token == "-" || token == "*" || token == "/") {
+                int a = stk.top(); stk.pop();
+                int b = stk.top(); stk.pop();
+                if (token == "+") stk.push(b + a);
+                else if (token == "-") stk.push(b - a);
+                else if (token == "*") stk.push(b * a);
+                else if (token == "/") stk.push(b / a); 
+            } else {
+                stk.push(stoi(token)); 
+            }
+        }
+
+        return stk.top();
+    }
