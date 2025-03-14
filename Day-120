@@ -1,0 +1,14 @@
+class Solution {
+  public:
+    int count(vector<int>& coins, int sum) {
+        // code here.
+        vector<int>dp(sum+1,0);
+        dp[0]=1;
+        for(int c:coins){
+            for(int i=c;i<=sum;i++){
+                dp[i]+=dp[i-c];
+            }
+        }
+        return dp[sum];
+    }
+};
